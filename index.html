@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Restaurants</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <div>
+            <h1>Student Restaurants</h1>
+            <p>Find student restaurants and browse their menus.</p>
+        </div>
+
+        <nav class="user-logins" aria-label="User account">
+            <button id="register" type="button">Register</button>
+            <button id="login-button" type="button">Login</button>
+            <button id="profile-button" class="profile-account-button" type="button" hidden>
+                <img id="header-profile-image" class="header-profile-image" alt="" hidden>
+                <span id="header-profile-placeholder" class="header-profile-placeholder" aria-hidden="true">👤</span>
+                <span>Profile</span>
+            </button>
+            <button id="logout-button" type="button" hidden>Logout</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="filters" aria-labelledby="find-heading">
+            <h2 id="find-heading">Find a restaurant</h2>
+
+            <div class="filter-grid">
+                <label>
+                    <span>Search</span>
+                    <input id="restaurant-search" type="search" placeholder="Name, address, city or company...">
+                </label>
+
+                <label>
+                    <span>City</span>
+                    <select id="city-select">
+                        <option value="All cities">All cities</option>
+                    </select>
+                </label>
+            </div>
+        </section>
+
+        <section class="map-section" aria-labelledby="map-heading">
+            <div class="section-heading-row">
+                <div>
+                    <h2 id="map-heading">Restaurant map</h2>
+                    <p id="location-status">Allow location access to highlight the nearest restaurant.</p>
+                </div>
+                <button id="locate-button" class="secondary-button" type="button">Find nearest restaurant</button>
+            </div>
+
+            <div id="restaurant-map" class="restaurant-map" aria-label="Map of student restaurants">
+                <div id="map-tiles" class="map-tiles" aria-hidden="true"></div>
+                <div id="map-markers" class="map-markers"></div>
+                <a class="map-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+                    © OpenStreetMap contributors
+                </a>
+            </div>
+        </section>
+
+        <section class="restaurants" aria-labelledby="restaurant-heading">
+            <div class="section-heading-row">
+                <h2 id="restaurant-heading">Restaurants</h2>
+                <span id="restaurant-count" class="muted"></span>
+            </div>
+            <div id="restaurant-list"></div>
+        </section>
+    </main>
+
+    <dialog id="menu-modal">
+        <button id="close-modal" class="dialog-close" type="button">&times; Close</button>
+        <h2 id="restaurant-name">Restaurant</h2>
+        <p id="restaurant-address"></p>
+
+        <div class="menu-switcher" aria-label="Menu period">
+            <button class="menu-type active" data-menu-type="daily" type="button">Daily menu</button>
+            <button class="menu-type" data-menu-type="weekly" type="button">Weekly menu</button>
+        </div>
+
+        <p id="menu-status" class="muted"></p>
+        <div id="menu-content"></div>
+    </dialog>
+
+    <dialog id="login-modal">
+        <button id="close-login-modal" class="dialog-close" type="button">&times; Close</button>
+        <h2>Login</h2>
+
+        <form id="login-form" class="stack-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" autocomplete="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+            <button type="submit">Login</button>
+            <p id="login-message" class="form-message" aria-live="polite"></p>
+        </form>
+    </dialog>
+
+    <dialog id="register-modal">
+        <button id="close-register-modal" class="dialog-close" type="button">&times; Close</button>
+        <h2>Register</h2>
+
+        <form id="register-form" class="stack-form">
+            <label for="new-username">Username</label>
+            <input type="text" id="new-username" name="username" autocomplete="username" required>
+
+            <label for="new-email">Email</label>
+            <input type="email" id="new-email" name="email" autocomplete="email" required>
+
+            <label for="new-password">Password</label>
+            <input type="password" id="new-password" name="password" autocomplete="new-password" minlength="4" required>
+
+            <button type="submit">Register</button>
+            <p id="register-message" class="form-message" aria-live="polite"></p>
+        </form>
+    </dialog>
+
+    <dialog id="profile-modal">
+        <button id="close-profile-modal" class="dialog-close" type="button">&times; Close</button>
+        <h2>My profile</h2>
+
+        <div class="profile-picture-row">
+            <img id="profile-image" class="profile-image" alt="Profile picture" hidden>
+            <div id="profile-placeholder" class="profile-placeholder" aria-hidden="true">👤</div>
+
+            <form id="avatar-form" class="avatar-form">
+                <label for="avatar-input">Upload a new profile picture</label>
+                <input id="avatar-input" type="file" name="avatar" accept="image/*" required>
+                <button type="submit" class="secondary-button">Upload picture</button>
+            </form>
+        </div>
+
+        <section class="profile-gallery-section" aria-labelledby="profile-gallery-heading">
+            <div class="profile-gallery-heading-row">
+                <h3 id="profile-gallery-heading">My uploaded pictures</h3>
+                <span class="muted">Click a picture to use it</span>
+            </div>
+            <div id="profile-gallery" class="profile-gallery"></div>
+            <p id="profile-gallery-empty" class="muted profile-gallery-empty">No uploaded pictures yet.</p>
+        </section>
+
+        <form id="profile-form" class="stack-form">
+            <label for="profile-username">Username</label>
+            <input type="text" id="profile-username" name="username" required>
+
+            <label for="profile-email">Email</label>
+            <input type="email" id="profile-email" name="email" required>
+
+            <label for="profile-password">New password <span class="muted">(optional)</span></label>
+            <input type="password" id="profile-password" name="password" autocomplete="new-password">
+
+            <button type="submit">Save changes</button>
+            <p id="profile-message" class="form-message" aria-live="polite"></p>
+        </form>
+    </dialog>
+
+    <footer>
+        <p>Student Restaurants &copy; 2026</p>
+    </footer>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>
